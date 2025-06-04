@@ -1,6 +1,8 @@
 # UR Robot with Robotiq Gripper
 Currently in progress, unstable. Only has UR10 robot for now (without gripper)
 
+Note: Required to have Universal_Robots_ROS2_Driver package installed. (I think...)
+
 After adding to workspace, run
 ```
 colcon build --packages-select my_ur
