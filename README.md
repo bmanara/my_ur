@@ -13,3 +13,9 @@ To run the ROS2 UR Description Launch File, (ur10 only)
 ```
 ros2 launch my_ur view_ur.launch.py ur_type:=ur10
 ```
+
+To run with ROS UR Simulation Launch File, (ur10 only)
+```
+ros2 launch my_ur ur_sim_control.launch.py # Launch only rviz and gazebo
+ros2 launch my_ur ur_sim_moveit.launch.py # Launch with Moveit
+```
