@@ -4,3 +4,4 @@ elbow_joint: 0.0
 wrist_1_joint: -1.57
 wrist_2_joint: 0.0
 wrist_3_joint: 0.0
+robotiq_85_left_knuckle_joint: 0.0

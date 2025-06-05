@@ -24,7 +24,7 @@ controller_manager:
       type: position_controllers/JointGroupPositionController
 
     gripper_controller:
-      type: position_controllers/JointGroupPositionController
+      type: position_controllers/GripperActionController
 
 
 speed_scaling_state_broadcaster:
@@ -68,14 +68,6 @@ scaled_joint_trajectory_controller:
       - wrist_1_joint
       - wrist_2_joint
       - wrist_3_joint
-      - robotiq_85_left_knuckle_joint
-      - robotiq_85_right_knuckle_joint
-      - robotiq_85_left_finger_joint
-      - robotiq_85_right_finger_joint
-      - robotiq_85_left_inner_knuckle_joint
-      - robotiq_85_right_inner_knuckle_joint
-      - robotiq_85_left_finger_tip_joint
-      - robotiq_85_right_finger_tip_joint
 
     command_interfaces:
       - position
@@ -119,12 +111,4 @@ forward_position_controller:
 
 gripper_controller:
   ros__parameters:
-    joints:
-      - robotiq_85_left_knuckle_joint
-      - robotiq_85_right_knuckle_joint
-      - robotiq_85_left_finger_joint
-      - robotiq_85_right_finger_joint
-      - robotiq_85_left_inner_knuckle_joint
-      - robotiq_85_right_inner_knuckle_joint
-      - robotiq_85_left_finger_tip_joint
-      - robotiq_85_right_finger_tip_joint
+    joint: robotiq_85_left_knuckle_joint
