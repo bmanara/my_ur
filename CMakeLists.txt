@@ -9,11 +9,11 @@ option(
   OFF
 )
 
-install(
-  PROGRAMS
-    scripts/mimic_joint_state_publisher.py
-    DESTINATION lib/${PROJECT_NAME}
-)
+# install(
+#   PROGRAMS
+#     scripts/mimic_joint_state_publisher.py
+#     DESTINATION lib/${PROJECT_NAME}
+# )
 
 install(
   DIRECTORY config launch meshes rviz urdf test
