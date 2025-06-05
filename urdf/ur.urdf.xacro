@@ -59,6 +59,32 @@
    <!-- create link fixed to the "world" -->
    <link name="world" />
 
+    <!-- ground plane box -->
+   <link name="ground_plane_box">
+      <visual>
+          <origin xyz="0 0 0" rpy="0 0 0"/>
+          <geometry>
+              <box size="1.0 1.0 0.5"/> 
+          </geometry>
+          <material name="Grey">
+              <color rgba="0.7 0.7 0.7 1.0"/>
+          </material>
+      </visual>
+      <collision>
+          <origin xyz="0 0 0" rpy="0 0 0"/>
+          <geometry>
+              <box size="1.0 1.0 0.5"/> 
+          </geometry>
+      </collision>
+  </link>
+
+  <joint name="ground_plane_box" type="fixed">
+      <parent link="world" />
+      <child link="ground_plane_box" />
+      <origin xyz="0 0 -0.25" rpy="0 0 0" />
+  </joint>
+
+
    <xacro:if value="${is_sim_gazebo or is_sim_ignition}">
      <link name="ground_plane">
        <visual>
