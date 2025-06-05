@@ -38,8 +38,9 @@ Note that certain changes need to be made to other packages that this package de
 
 
 ### Known bugs
-- Gripper closing and opening is werid. Mimic joints don't seem to work as intended in Gazebo. (Absolutely no idea why it's doing this ._.)
-- `ros2_control` can't find joint with added `_mimic` (fixed)
-- Cannot control gripper with moveit (fixed)
-- Cannot control arm with moveit (fixed)
+- Gripper closing and opening is werid. Mimic joints don't seem to work as intended in Gazebo. [tried inertia values, limits... not working]
+- `ros2_control` can't find joint with added `_mimic` [Install source, change the code]
+- Cannot control gripper with moveit [Use moveit assistant to produce controllers, groups etc.]
+- Cannot control arm with moveit [Disable collisions between arm and gripper]
+- Moveit planning sometimes goes through ground plane [Add ground plane box to urdf]
 
