@@ -20,6 +20,11 @@ ros2 launch my_ur ur_sim_control.launch.py # Launch only rviz and gazebo
 ros2 launch my_ur ur_sim_moveit.launch.py # Launch with Moveit
 ```
 
+To try sending a command using `ur_robot_driver` package,
+```
+ros2 run ur_robot_driver example_move.py
+```
+
 ### Additional Details
 Note that certain changes need to be made to other packages that this package depends on. (There's too many lines to keep track off, so I will only provide a summary)
 1. Universal_Robots_ROS2_Driver (`ur_moveit_config` package)
@@ -28,6 +33,8 @@ Note that certain changes need to be made to other packages that this package de
 - `ur_macro.srdf.xacro`: Added gripper groups, states and disabled collisions (produced by moveit_assistant)
 2. `gz_ros2_control` package
 - `gz_system.cpp`: Removed adding suffix `_mimic` when `ros2_control` sees a mimic joint. [WHO IN THE RIGHT MIND IMPLEMENTED THIS, EXPLAIN YOURSELF]
+3. `ur_robot_driver` package
+- `example_move.py` script: Instead of `scaled_joint_trajactory_controller`, changed to `joint_trajectory_controller`
 
 
 ### Known bugs
