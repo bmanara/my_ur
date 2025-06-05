@@ -200,12 +200,12 @@ def launch_setup(context, *args, **kwargs):
     )
 
     # Register the MimicJointStatePublisher node
-    # mimic_joint_state_publisher = Node(
-    #     package="my_ur",
-    #     executable="mimic_joint_state_publisher.py",
-    #     name="mimic_joint_state_publisher",
-    #     output="screen",
-    # )
+    mimic_joint_state_publisher = Node(
+        package="my_ur",
+        executable="mimic_joint_state_publisher.py",
+        name="mimic_joint_state_publisher",
+        output="screen",
+    )
 
     nodes_to_start = [
         robot_state_publisher_node,
