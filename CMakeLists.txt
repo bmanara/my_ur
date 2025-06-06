@@ -16,7 +16,7 @@ install(
 )
 
 install(
-  DIRECTORY config launch meshes rviz urdf test
+  DIRECTORY config launch meshes rviz urdf worlds test
   DESTINATION share/${PROJECT_NAME}
 )
 
