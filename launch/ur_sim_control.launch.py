@@ -173,6 +173,44 @@ def launch_setup(context, *args, **kwargs):
             "true",
         ],
     )
+
+    cylinder_file_path = PathJoinSubstitution([FindPackageShare("my_ur"), "urdf", "object.xacro"])
+    gz_spawn_object  = Node(
+        package="ros_gz_sim",
+        executable="create",
+        output="screen",
+        arguments=[
+            "-file",
+            cylinder_file_path,
+            "-name",
+            "cylinder",
+            "-y",
+            "1.0",
+            "-z",
+            "0.3",
+        ]
+    )
+
+    cylinder_state_publisher = Node(
+        package="robot_state_publisher",
+        executable="robot_state_publisher",
+        name='cylinder_state_publisher',
+        output='screen',
+        parameters=[{
+            "use_sim_time": True,
+            "cylinder_description": Command(['xacro ', cylinder_file_path])
+        }]
+    )
+
+    tf_static_publisher = Node(
+        package="tf2_ros",
+        executable="static_transform_publisher",
+        arguments=[
+            "0.0", "1.0", "0.3", "0.0", "0.0", "0.0", "world", "cylinder_link"
+        ],
+        output="screen",
+    )
+
     gz_launch_description_with_gui = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             [FindPackageShare("ros_gz_sim"), "/launch/gz_sim.launch.py"]
@@ -215,6 +253,9 @@ def launch_setup(context, *args, **kwargs):
         initial_joint_controller_spawner_stopped,
         initial_joint_controller_spawner_started,
         gz_spawn_entity,
+        gz_spawn_object,
+        cylinder_state_publisher,
+        tf_static_publisher,
         gz_launch_description_with_gui,
         gz_launch_description_without_gui,
         gz_sim_bridge,
@@ -331,10 +372,13 @@ def generate_launch_description():
             "gazebo_gui", default_value="true", description="Start gazebo with GUI?"
         )
     )
+    world_file = PathJoinSubstitution([
+        FindPackageShare("my_ur"), "worlds", "demo.world"
+    ])
     declared_arguments.append(
         DeclareLaunchArgument(
             "world_file",
-            default_value="empty.sdf",
+            default_value=world_file,
             description="Gazebo world file (absolute path or filename from the gazebosim worlds collection) containing a custom world.",
         )
     )
