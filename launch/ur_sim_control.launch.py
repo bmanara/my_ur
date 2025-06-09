@@ -206,9 +206,9 @@ def launch_setup(context, *args, **kwargs):
         package="tf2_ros",
         executable="static_transform_publisher",
         arguments=[
-            "0.0", "1.0", "0.3", "0.0", "0.0", "0.0", "world", "cylinder_link"
+            "--frame-id", "world", "--child-frame-id", "base_link"
         ],
-        output="screen",
+        output="log",
     )
 
     gz_launch_description_with_gui = IncludeLaunchDescription(
