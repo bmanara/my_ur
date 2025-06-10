@@ -174,33 +174,33 @@ def launch_setup(context, *args, **kwargs):
         ],
     )
 
-    cylinder_file_path = PathJoinSubstitution([FindPackageShare("my_ur"), "urdf", "object.xacro"])
-    gz_spawn_object  = Node(
-        package="ros_gz_sim",
-        executable="create",
-        output="screen",
-        arguments=[
-            "-file",
-            cylinder_file_path,
-            "-name",
-            "cylinder",
-            "-y",
-            "1.0",
-            "-z",
-            "0.3",
-        ]
-    )
+    # cylinder_file_path = PathJoinSubstitution([FindPackageShare("my_ur"), "urdf", "object.xacro"])
+    # gz_spawn_object  = Node(
+    #     package="ros_gz_sim",
+    #     executable="create",
+    #     output="screen",
+    #     arguments=[
+    #         "-file",
+    #         cylinder_file_path,
+    #         "-name",
+    #         "cylinder",
+    #         "-y",
+    #         "1.0",
+    #         "-z",
+    #         "0.3",
+    #     ]
+    # )
 
-    cylinder_state_publisher = Node(
-        package="robot_state_publisher",
-        executable="robot_state_publisher",
-        name='cylinder_state_publisher',
-        output='screen',
-        parameters=[{
-            "use_sim_time": True,
-            "cylinder_description": Command(['xacro ', cylinder_file_path])
-        }]
-    )
+    # cylinder_state_publisher = Node(
+    #     package="robot_state_publisher",
+    #     executable="robot_state_publisher",
+    #     name='cylinder_state_publisher',
+    #     output='screen',
+    #     parameters=[{
+    #         "use_sim_time": True,
+    #         "cylinder_description": Command(['xacro ', cylinder_file_path])
+    #     }]
+    # )
 
     tf_static_publisher = Node(
         package="tf2_ros",
@@ -237,13 +237,6 @@ def launch_setup(context, *args, **kwargs):
         output="screen",
     )
 
-    # Register the MimicJointStatePublisher node
-    mimic_joint_state_publisher = Node(
-        package="my_ur",
-        executable="mimic_joint_state_publisher.py",
-        name="mimic_joint_state_publisher",
-        output="screen",
-    )
 
     nodes_to_start = [
         robot_state_publisher_node,
@@ -253,13 +246,12 @@ def launch_setup(context, *args, **kwargs):
         initial_joint_controller_spawner_stopped,
         initial_joint_controller_spawner_started,
         gz_spawn_entity,
-        gz_spawn_object,
-        cylinder_state_publisher,
+        # gz_spawn_object,
+        # cylinder_state_publisher,
         tf_static_publisher,
         gz_launch_description_with_gui,
         gz_launch_description_without_gui,
         gz_sim_bridge,
-        # mimic_joint_state_publisher,
     ]
 
     return nodes_to_start
