@@ -47,8 +47,8 @@ Note that certain changes need to be made to other packages that this package de
 ### Known bugs
 - [ ] Planned path/movement of robot arm seems "janky". Gripper approaching in wrong direction [partially fixed]
 - [x] Unable to move to "set positions by srdf" using moveit task constructor [fixed by point 1.5, move_group_capabilities]
-- [ ] Unable to move using moveit task constructor after planning [Linked with below bug? Looks like there is a path planned out? But no clue...] 
-- [ ] When used alongside `my_mtc` package, optimizer is unable to find a "good enough" path. [Collision and smootheness cost is too high]
+- [x] Unable to move using moveit task constructor after planning [fixed, changed `my_mtc` launch files. Check README in the other repo for more details] 
+- [x] When used alongside `my_mtc` package, optimizer is unable to find a "good enough" path. [See above bug]
 - [x] Gripper closing and opening is werid. Mimic joints don't seem to work as intended in Gazebo. [nuked gripper code, redo using FollowJointTrajectory instead of GripperCommand]
 - [x] `ros2_control` can't find joint with added `_mimic` [Install source, change the code]
 - [x] Cannot control gripper with moveit [Use moveit assistant to produce controllers, groups etc.]
