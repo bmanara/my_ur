@@ -1,7 +1,8 @@
 # UR Robot with Robotiq Gripper
-Currently in progress, unstable. Only has UR10 robot for now (without gripper)
+"Stable" build. A pick and place simulation of a UR10 with Robotiq Gripper.
+Runs Rviz, ROS2 Humble and Gazebo Harmonic.
 
-Note: Required to have Universal_Robots_ROS2_Driver package installed. (I think...)
+Note: Required to have Universal_Robots_ROS2_Driver package installed. 
 
 After adding to workspace, run
 ```
