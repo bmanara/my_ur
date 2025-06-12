@@ -467,7 +467,7 @@
       <child link="${tf_prefix}tool0"/>
     </joint>
 
-    <!-- Gripper URDF -->
-    <xacro:include filename="$(find my_ur)/urdf/gripper.urdf.xacro" />
+    <!-- Sander URDF -->
+    <xacro:include filename="$(find my_ur)/urdf/simple_sander.urdf.xacro" />
   </xacro:macro>
 </robot>

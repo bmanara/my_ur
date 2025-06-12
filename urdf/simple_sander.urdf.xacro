@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="simple_sander">
+    <!-- Simple sander -->
+    <link name="sander_base_link">
+        <visual>
+            <geometry>
+                <box size="0.1 0.1 0.05"/>
+            </geometry>
+            <material name="grey">
+                <color rgba="0.5 0.5 0.5 1"/>
+            </material>
+        </visual>
+        <collision>
+            <geometry>
+                <box size="0.1 0.1 0.05"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="0.5"/>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <inertia
+                ixx="0.0001"
+                ixy="0.0"
+                ixz="0.0"
+                iyy="0.0001"
+                iyz="0.0"
+                izz="0.0001"/>
+        </inertial>
+    </link>
+
+    <link name="sanding_disc_link">
+        <visual>
+            <geometry>
+                <cylinder radius="0.04" length="0.03"/>
+            </geometry>
+            <material name="red">
+                <color rgba="1 0 0 1"/>
+            </material>
+        </visual>
+        <collision>
+            <geometry>
+                <cylinder radius="0.04" length="0.03"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="0.1"/>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <inertia
+                ixx="0.00001"
+                ixy="0.0"
+                ixz="0.0"
+                iyy="0.00001"
+                iyz="0.0"
+                izz="0.00001"/>
+        </inertial>
+    </link>
+
+    <joint name="sander_joint" type="fixed">
+        <parent link="sander_base_link" />
+        <child link="sanding_disc_link" />
+        <origin xyz="0 0 0.035" rpy="0 0 0"/>
+    </joint>
+
+    <!-- Connect sander to arm -->
+    <joint name="arm_sander_joint" type="fixed">
+        <parent link="${tf_prefix}wrist_3_link"/>
+        <child link="sander_base_link"/>
+        <origin xyz="0 0 0"/>
+    </joint>
+</robot>
+  

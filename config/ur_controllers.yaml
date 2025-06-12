@@ -109,12 +109,12 @@ forward_position_controller:
       - wrist_2_joint
       - wrist_3_joint
 
-gripper_controller:
-  ros__parameters:
-    joints:
-      - robotiq_85_left_knuckle_joint
-    command_interfaces:
-      - position
-    state_interfaces:
-      - position
-      - velocity
+# gripper_controller:
+#   ros__parameters:
+#     joints:
+#       - robotiq_85_left_knuckle_joint
+#     command_interfaces:
+#       - position
+#     state_interfaces:
+#       - position
+#       - velocity
