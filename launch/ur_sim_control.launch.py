@@ -34,6 +34,7 @@ from launch.actions import (
     IncludeLaunchDescription,
     OpaqueFunction,
     RegisterEventHandler,
+    TimerAction
 )
 from launch.conditions import IfCondition, UnlessCondition
 from launch.event_handlers import OnProcessExit
@@ -130,11 +131,11 @@ def launch_setup(context, *args, **kwargs):
         arguments=["joint_state_broadcaster", "--controller-manager", "/controller_manager"],
     )
 
-    gripper_controller_spawner = Node(
-        package="controller_manager",
-        executable="spawner",
-        arguments=["gripper_controller"]
-    )
+    # gripper_controller_spawner = Node(
+    #     package="controller_manager",
+    #     executable="spawner",
+    #     arguments=["gripper_controller"]
+    # )
 
     # Delay rviz start after `joint_state_broadcaster`
     delay_rviz_after_joint_state_broadcaster_spawner = RegisterEventHandler(
@@ -200,8 +201,42 @@ def launch_setup(context, *args, **kwargs):
         output='screen',
         parameters=[{
             "use_sim_time": True,
-            "cylinder_description": Command(['xacro ', cylinder_file_path])
-        }]
+            "robot_description": Command(['xacro ', cylinder_file_path]),
+            "frame_prefix": "cylinder"
+        }],
+        namespace='cylinder'
+    )
+
+    wall_file_path = PathJoinSubstitution([FindPackageShare("my_ur"), "urdf", "wall.xacro"])
+    gz_spawn_wall = Node(
+        package="ros_gz_sim",
+        executable="create",
+        output="screen",
+        arguments=[
+            "-file",
+            wall_file_path,
+            "-name",
+            "wall",
+            "-x",
+            "0.0",
+            "-y",
+            "1.0",
+            "-z",
+            "1.0",
+        ]
+    )
+
+    wall_state_publisher = Node(
+        package="robot_state_publisher",
+        executable="robot_state_publisher",
+        name='wall_state_publisher',
+        output='screen',
+        parameters=[{
+            "use_sim_time": True,
+            "robot_description": Command(['xacro ', wall_file_path]),
+            "frame_prefix": "wall"
+        }],
+        namespace='wall'
     )
 
     tf_static_publisher = Node(
@@ -211,6 +246,32 @@ def launch_setup(context, *args, **kwargs):
             "--frame-id", "world", "--child-frame-id", "base_link"
         ],
         output="log",
+    )
+
+    tf_static_cylinder_publisher = TimerAction(
+        period=8.0,
+        actions=[
+            Node(
+                package="tf2_ros",
+                executable="static_transform_publisher",
+                arguments=['0.5', '-0.25', '0.15', '0', '0', '0', 'world', 'cylinder_link'],
+                output="log",
+                name="tf_static_cylinder_publisher"
+            )
+        ]
+    )
+
+    tf_static_wall_publisher = TimerAction(
+        period=8.0,
+        actions=[
+            Node(
+                package="tf2_ros",
+                executable="static_transform_publisher",
+                arguments=['0', '1', '1', '0', '0', '0', 'world', 'wall_link'],
+                output="log",
+                name="tf_static_wall_publisher"
+            )
+        ]
     )
 
     gz_launch_description_with_gui = IncludeLaunchDescription(
@@ -243,14 +304,18 @@ def launch_setup(context, *args, **kwargs):
     nodes_to_start = [
         robot_state_publisher_node,
         joint_state_broadcaster_spawner,
-        gripper_controller_spawner,
+        # gripper_controller_spawner,
         delay_rviz_after_joint_state_broadcaster_spawner,
         initial_joint_controller_spawner_stopped,
         initial_joint_controller_spawner_started,
         gz_spawn_entity,
         gz_spawn_object,
+        gz_spawn_wall,
         cylinder_state_publisher,
+        wall_state_publisher,
         tf_static_publisher,
+        tf_static_cylinder_publisher,
+        tf_static_wall_publisher,
         gz_launch_description_with_gui,
         gz_launch_description_without_gui,
         gz_sim_bridge,
